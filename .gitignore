@@ -5,12 +5,16 @@
 
 # Package Files #
 *.jar
+<<<<<<< HEAD
 !current/*
+=======
+>>>>>>> e722e7e4bd4090bd0c76b54f8eadacd0d549370a
 *.war
 *.ear
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+<<<<<<< HEAD
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 *.iml
@@ -53,3 +57,5 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
+=======
+>>>>>>> e722e7e4bd4090bd0c76b54f8eadacd0d549370a
