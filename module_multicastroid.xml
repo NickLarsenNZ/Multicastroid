@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_multicastroid" default="compile.module.multicastroid">
+  <dirname property="module.multicastroid.basedir" file="${ant.file.module_multicastroid}"/>
+  
+  <property name="module.jdk.home.multicastroid" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.multicastroid" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.multicastroid" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.multicastroid" value="-encoding UTF-8 -source 1.7 ${compiler.args}"/>
+  
+  <property name="multicastroid.output.dir" value="${module.multicastroid.basedir}/out/production/Multicastroid"/>
+  <property name="multicastroid.testoutput.dir" value="${module.multicastroid.basedir}/out/test/Multicastroid"/>
+  
+  <path id="multicastroid.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="multicastroid.module.production.classpath">
+    <path refid="${module.jdk.classpath.multicastroid}"/>
+    <path refid="library.args4j:args4j-maven-plugin-example:2.0.29.classpath"/>
+  </path>
+  
+  <path id="multicastroid.runtime.production.module.classpath">
+    <pathelement location="${multicastroid.output.dir}"/>
+    <path refid="library.args4j:args4j-maven-plugin-example:2.0.29.classpath"/>
+  </path>
+  
+  <path id="multicastroid.module.classpath">
+    <path refid="${module.jdk.classpath.multicastroid}"/>
+    <pathelement location="${multicastroid.output.dir}"/>
+    <path refid="library.args4j:args4j-maven-plugin-example:2.0.29.classpath"/>
+  </path>
+  
+  <path id="multicastroid.runtime.module.classpath">
+    <pathelement location="${multicastroid.testoutput.dir}"/>
+    <pathelement location="${multicastroid.output.dir}"/>
+    <path refid="library.args4j:args4j-maven-plugin-example:2.0.29.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.multicastroid">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.multicastroid">
+    <patternset refid="excluded.from.module.multicastroid"/>
+  </patternset>
+  
+  <path id="multicastroid.module.sourcepath">
+    <dirset dir="${module.multicastroid.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.multicastroid" depends="compile.module.multicastroid.production,compile.module.multicastroid.tests" description="Compile module Multicastroid"/>
+  
+  <target name="compile.module.multicastroid.production" depends="register.custom.compilers" description="Compile module Multicastroid; production classes">
+    <mkdir dir="${multicastroid.output.dir}"/>
+    <javac2 destdir="${multicastroid.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.multicastroid}/javac">
+      <compilerarg line="${compiler.args.multicastroid}"/>
+      <bootclasspath refid="multicastroid.module.bootclasspath"/>
+      <classpath refid="multicastroid.module.production.classpath"/>
+      <src refid="multicastroid.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.multicastroid"/>
+    </javac2>
+    
+    <copy todir="${multicastroid.output.dir}">
+      <fileset dir="${module.multicastroid.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.multicastroid.tests" depends="register.custom.compilers,compile.module.multicastroid.production" description="compile module Multicastroid; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.multicastroid" description="cleanup module">
+    <delete dir="${multicastroid.output.dir}"/>
+    <delete dir="${multicastroid.testoutput.dir}"/>
+  </target>
+</project>
